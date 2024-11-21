@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "https://zi-angzhang.github.io/PlotlyElectronDensity/static/css/main.a9ec1441.css",
-    "main.js": "https://zi-angzhang.github.io/PlotlyElectronDensity/static/js/main.09bbe940.js",
-    "static/media/logo.svg": "https://zi-angzhang.github.io/PlotlyElectronDensity/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "https://zi-angzhang.github.io/PlotlyElectronDensity/index.html",
-    "main.a9ec1441.css.map": "https://zi-angzhang.github.io/PlotlyElectronDensity/static/css/main.a9ec1441.css.map",
-    "main.09bbe940.js.map": "https://zi-angzhang.github.io/PlotlyElectronDensity/static/js/main.09bbe940.js.map"
+    "main.css": "/PlotlyElectronDensity/static/css/main.a9ec1441.css",
+    "main.js": "/PlotlyElectronDensity/static/js/main.73db6a0f.js",
+    "static/media/logo.svg": "/PlotlyElectronDensity/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/PlotlyElectronDensity/index.html",
+    "main.a9ec1441.css.map": "/PlotlyElectronDensity/static/css/main.a9ec1441.css.map",
+    "main.73db6a0f.js.map": "/PlotlyElectronDensity/static/js/main.73db6a0f.js.map"
   },
   "entrypoints": [
     "static/css/main.a9ec1441.css",
-    "static/js/main.09bbe940.js"
+    "static/js/main.73db6a0f.js"
   ]
 }
