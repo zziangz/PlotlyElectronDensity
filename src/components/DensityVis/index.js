@@ -119,6 +119,9 @@ const volumeTrace = (data, config) => {
     opacity: opacity,
     isomax: rhorMax, 
     isomin: threshold,
+    surface: {
+      count: 17,
+    },
     hovertemplate: 'rhor: %{value:.2f}<extra></extra>',
   };
 }
