@@ -5,7 +5,7 @@ Visualize molecule electron density $\rho$ with React and Plotly.
 Currently input formats:
 
 - [x] QM9 schema (includes xyz, dat, npy)
-- [ ] non-uniform grid (includes xyz, dat)
+- [x] non-uniform grid (includes xyz, dat)
 
 
 To use the tool: https://zziangz.github.io/PlotlyElectronDensity/

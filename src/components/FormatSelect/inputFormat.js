@@ -77,9 +77,10 @@ const parseSJPROJ = async ({ files }) => {
   const coordBuffer = await readFile(files["scoord.6.xyz"]);
   const coordText = new TextDecoder().decode(coordBuffer);
   const numAtoms = Number(coordText.split("\n")[0]);
+  const angstrom2au = 1.8897259886;
   const centered = coordText.split("\n").slice(2, 2 + numAtoms).map(line => {
     const [atom, x, y, z] = line.split(" ");
-    return [atom, Number(x), Number(y), Number(z)];
+    return [atom, Number(x)*angstrom2au, Number(y)*angstrom2au, Number(z)*angstrom2au];
   });
   // box size and rhor
   const datBuffer = await readFile(files["scoord.6_density.dat"]);
