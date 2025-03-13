@@ -71,6 +71,50 @@ const parseQM9 = async ({ files } ) => {
   };
 }
 
+const parseSJPROJ = async ({ files }) => {
+  let n = new npyjs();
+  // Atom coord
+  const coordBuffer = await readFile(files["scoord.6.xyz"]);
+  const coordText = new TextDecoder().decode(coordBuffer);
+  const numAtoms = Number(coordText.split("\n")[0]);
+  const centered = coordText.split("\n").slice(2, 2 + numAtoms).map(line => {
+    const [atom, x, y, z] = line.split(" ");
+    return [atom, Number(x), Number(y), Number(z)];
+  });
+  // box size and rhor
+  const datBuffer = await readFile(files["scoord.6_density.dat"]);
+  const datText = new TextDecoder().decode(datBuffer);
+  const lines = datText.split("\n");
+  // table-like data. x, y, z, rhor, others
+  const xArray = [];
+  const yArray = [];
+  const zArray = [];
+  const rhorArray = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line.length === 0) continue;
+    const [x, y, z, rhor, _] = line.split(" ").map(Number);
+    xArray.push(x);
+    yArray.push(y);
+    zArray.push(z);
+    rhorArray.push(rhor);
+  }
+  const rhorMax = maxArray(rhorArray);
+  const gridSizes = null;
+  const box = null;
+  //const [x, y, z, rhor] = rhorXYZ({ data: rhorArray }, gridSizes, box);
+  return {
+    x : xArray,
+    y : yArray,
+    z : zArray,
+    rhor : rhorArray,
+    rhorMax,
+    gridSizes,
+    box,
+    centered,
+  };
+
+}
 const supportedFormat = [
   {
     "dataset": "QM9",
@@ -110,6 +154,26 @@ const supportedFormat = [
       },
     ],
     parser: parseQM9,
+  },
+  {
+    dataset: "SJPROJ",
+    description: "St. Jude QMDFT project format. To be named",
+    disabled: false,
+    parser: parseSJPROJ,
+    files: [
+      {
+        filename: "scoord.6.xyz",
+        description: "Atom coordinate",
+        format: "xyz",
+        required: true,
+      },
+      {
+        filename: "scoord.6_density.dat",
+        description: "coordinate and Density",
+        format: "dat",
+        required: true,
+      }
+    ]
   },
   {
     dataset: "TODO",

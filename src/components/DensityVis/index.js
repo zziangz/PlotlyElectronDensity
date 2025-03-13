@@ -99,33 +99,52 @@ const LogSlider = ({ key, value, max, onChange }) => {
     </div>
   );
 }
-const volumeTrace = (data, config) => {
-  const { x, y, z, rhor, rhorMax } = data;
+const rhorTrace = (data, config) => {
+  // plot the electron density.
+  // For non-uniform grid, we use scatter plot instead
+  const { x, y, z, rhor, rhorMax, gridSizes} = data;
   const { opacity, threshold } = config;
-  return {
+  const volumeTrace = {
     type: 'volume',
     x,
     y,
     z,
     value: rhor,
     colorscale: 'Viridis',
-    colorbar: {
-      tickmode: 'array',
-      tickvals: [threshold, 0.1, rhorMax],
-      type: 'log',
-    },
-    showscale: false,
-    opacityscale: [[0, 0], [threshold, 0], [0.1, 0.1], [rhorMax, 1]],
     opacity: opacity,
-    isomax: rhorMax, 
     isomin: threshold,
+    isomax: rhorMax, 
     surface: {
       count: 17,
     },
     hovertemplate: 'rhor: %{value:.2f}<extra></extra>',
   };
-}
+  const scatterTrace = {
+    type: 'scatter3d',
+    mode: 'markers',
+    x,
+    y,
+    z,
+    marker: {
+      size: 2,
+      color: rhor.map((value) => Math.log10(value)),
+      colorscale: 'Viridis',
+      colorbar: {
+        tickmode: 'array',
+        tickvals: [threshold, 0.01, rhorMax],
+        type: 'log',
+      },
+      showscale: false,
+      opacityscale: [[0, 0], [threshold, 0], [0.1, 0.1], [rhorMax, 1]],
+      opacity: opacity,
+    },
+    text : rhor,
+    hovertemplate: 'rhor: %{text:.2f}<extra></extra>',
+  };
 
+  return gridSizes ? volumeTrace : scatterTrace;
+}
+ 
 const moleculeTrace = (data) => {
   const { centered } = data;
   const [x, y, z, atom, size, color] = centered.reduce((acc, line) => {
@@ -175,7 +194,7 @@ const DensityVis = ({ data }) => {
   useEffect(() => {
     if (data) {
       setTrace([
-        volumeTrace(data, traceConfig),
+        rhorTrace(data, traceConfig),
         moleculeTrace(data),
       ]);
     }
